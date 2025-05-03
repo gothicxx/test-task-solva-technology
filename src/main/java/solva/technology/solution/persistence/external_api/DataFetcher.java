@@ -1,7 +1,10 @@
 package solva.technology.solution.persistence.external_api;
 
-import org.springframework.stereotype.Component;
+import solva.technology.solution.persistence.dto.currency.CurrencyCreateDto;
 
-@Component
-public class DataFetcher {
+import java.util.List;
+
+public interface DataFetcher {
+
+    List<CurrencyCreateDto> fetchDataFromJson();
 }
