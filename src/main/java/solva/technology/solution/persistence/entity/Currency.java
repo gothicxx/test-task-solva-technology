@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -15,8 +16,12 @@ import solva.technology.solution.persistence.entity.base_entity.BaseEntity;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "currencies", indexes = {
+@Table(name = "currencies",
+        indexes = {
         @Index(name = "idx_currencies_reference", columnList = "reference")
+    },
+        uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"currencyCode", "exchangeDate"})
     }
 )
 @AllArgsConstructor

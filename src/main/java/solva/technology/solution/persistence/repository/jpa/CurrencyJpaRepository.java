@@ -6,9 +6,16 @@ import org.springframework.data.repository.query.Param;
 import solva.technology.solution.persistence.entity.Currency;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public interface CurrencyJpaRepository extends JpaRepository<Currency, Long> {
 
     @NativeQuery("select exists (select 1 from currencies where date =: date)")
     boolean existsByDate(@Param("date") LocalDate exchangeDate);
+
+    @NativeQuery("select * from currencies where date = :date")
+    List<Currency> findAllByDate(@Param("date") LocalDate date);
+
+    @NativeQuery("select * from currencies where date = :date and currency_code = :cc")
+    Currency findOneByDateAndCurrencyCode(@Param("date") LocalDate date, @Param("cc") String currencyCode);
 }
