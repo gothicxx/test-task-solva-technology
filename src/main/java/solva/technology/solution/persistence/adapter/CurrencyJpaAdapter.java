@@ -12,6 +12,8 @@ import solva.technology.solution.service.port.out.CurrencyPersistence;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -32,15 +34,17 @@ public class CurrencyJpaAdapter implements CurrencyPersistence {
     @Override
     public List<CurrencyDto> findAllByDate(LocalDate date) {
         List<CurrencyCreateDto> currencyCreateDtoList = dataFetcher.fetchDataFromJsonByDate(date);
-        currencyJpaRepository.saveAll(currencyCreateDtoList.stream()
-                .map(currencyMapper::mapToEntity)
-                .toList());
-//        return currencies.stream()
-//                .map(currencyMapper::mapToDto)
-//                .toList();
-        return currencyJpaRepository.findAllByDate(date).stream()
+        List<Currency> currencies = currencyCreateDtoList.stream().map(currencyMapper::mapToEntity).toList();
+        currencyJpaRepository.saveAll(currencies);
+        //        currencyJpaRepository.saveAll(currencyCreateDtoList.stream()
+//                .map(currencyMapper::mapToEntity)
+//                .toList());
+        return currencies.stream()
                 .map(currencyMapper::mapToDto)
                 .toList();
+//        return currencyJpaRepository.findAllByDate(date).stream()
+//                .map(currencyMapper::mapToDto)
+//                .toList();
     }
 
     // todo firstly save and than return, in scheduler saved yet
@@ -51,17 +55,23 @@ public class CurrencyJpaAdapter implements CurrencyPersistence {
 
     @Override
     public CurrencyDto findOneByDateAndCurrencyCode(LocalDate date, String currencyCode) {
-        List<CurrencyCreateDto> currencyCreateDtoList = dataFetcher.fetchDataFromJsonByDate(date);
-        Currency currency = currencyCreateDtoList.stream()
-                .filter(currencyCode::equals)
-                .map(currencyMapper::mapToEntity)
-                .findFirst()
-                .orElse(null);
-        // todo refactor code, bad practice
-        if (currency == null) {
-            throw new RuntimeException();
+        Optional<Currency> oneByDateAndCurrencyCode = currencyJpaRepository
+                .findOneByDateAndCurrencyCode(date, currencyCode);
+
+        if (oneByDateAndCurrencyCode.isPresent()) {
+            return currencyMapper.mapToDto(oneByDateAndCurrencyCode.get());
         }
-        currencyJpaRepository.save(currency);
-        return currencyMapper.mapToDto(currencyJpaRepository.findOneByDateAndCurrencyCode(date, currencyCode));
+
+        List<CurrencyCreateDto> currencyCreateDtoList = dataFetcher.fetchDataFromJsonByDate(date);
+
+        CurrencyCreateDto matchingCurrencyCreateDto = currencyCreateDtoList.stream()
+                .filter(dto -> dto.getCurrencyCode().equalsIgnoreCase(currencyCode))
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException(
+                "Currency with code " + currencyCode + " not found for date " + date));
+
+
+        Currency saved = currencyJpaRepository.save(currencyMapper.mapToEntity(matchingCurrencyCreateDto));
+        return currencyMapper.mapToDto(saved);
     }
 }
