@@ -1,6 +1,7 @@
 package solva.technology.solution.persistence.adapter;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import solva.technology.solution.persistence.dto.currency.CurrencyCreateDto;
 import solva.technology.solution.persistence.dto.currency.CurrencyDto;
@@ -17,6 +18,7 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class CurrencyJpaAdapter implements CurrencyPersistence {
 
     private final CurrencyMapper currencyMapper;
@@ -50,7 +52,13 @@ public class CurrencyJpaAdapter implements CurrencyPersistence {
     // todo firstly save and than return, in scheduler saved yet
     @Override
     public List<CurrencyDto> findAll() {
-        return currencyJpaRepository.findAll().stream().map(currencyMapper::mapToDto).toList();
+        List<CurrencyDto> list = currencyJpaRepository.findAll().stream()
+                .map(currencyMapper::mapToDto)
+                .toList();
+        log.info("Returning {} currencies", list.size());
+        return list;
+
+      //  return currencyJpaRepository.findAll().stream().map(currencyMapper::mapToDto).toList();
     }
 
     @Override
