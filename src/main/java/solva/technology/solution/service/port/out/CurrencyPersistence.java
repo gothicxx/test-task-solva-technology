@@ -10,6 +10,8 @@ public interface CurrencyPersistence {
 
     boolean existsByDate(LocalDate date);
 
+    void saveAll(List<CurrencyCreateDto> dto);
+
     List<CurrencyDto> findAllByDate(LocalDate date);
 
     List<CurrencyDto> findAll();

@@ -18,8 +18,6 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     private final CurrencyPersistence currencyPersistence;
 
-    private final DataFetcher dataFetcher;
-
     @Override
     public boolean existsByDate(LocalDate date) {
         return currencyPersistence.existsByDate(date);

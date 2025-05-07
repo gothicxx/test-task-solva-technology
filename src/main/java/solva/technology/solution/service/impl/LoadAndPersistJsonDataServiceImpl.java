@@ -24,11 +24,11 @@ public class LoadAndPersistJsonDataServiceImpl {
 
     private final CurrencyPersistence currencyPersistence;
 
-    // todo just for test, remove
-    private final CurrencyJpaRepository repository;
-
-    // todo just for test, remove2
-    private final CurrencyMapper mapper;
+//    // todo just for test, remove
+//    private final CurrencyJpaRepository repository;
+//
+//    // todo just for test, remove2
+//    private final CurrencyMapper mapper;
 
     @Scheduled(initialDelay = 1000, fixedDelay = 36000000)
     public void loadData() {
@@ -41,10 +41,11 @@ public class LoadAndPersistJsonDataServiceImpl {
         List<CurrencyCreateDto> currencyDtoList = dataFetcher.fetchDataFromJson();
         currencyDtoList.forEach(currency -> currency.setExchangeDate(today));
 
-        List<Currency> currencies = currencyDtoList.stream().map(mapper::mapToEntity).toList();
+//        List<Currency> currencies = currencyDtoList.stream().map(mapper::mapToEntity).toList();
 
         log.info("Saving today's currencies to DB");
-        currencies.forEach(c -> log.info("Saving: {}", c));
-        repository.saveAll(currencies);
+//        currencies.forEach(c -> log.info("Saving: {}", c));
+        currencyPersistence.saveAll(currencyDtoList);
+//        repository.saveAll(currencies);
     }
 }

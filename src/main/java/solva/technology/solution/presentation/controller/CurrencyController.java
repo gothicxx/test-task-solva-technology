@@ -1,46 +1,43 @@
 package solva.technology.solution.presentation.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import solva.technology.solution.persistence.dto.currency.CurrencyDto;
-import solva.technology.solution.persistence.entity.Currency;
 import solva.technology.solution.service.port.in.CurrencyService;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@RestController()
-@RequestMapping("/rates")
+@RestController
+@RequestMapping("api/v1/rates")
 @RequiredArgsConstructor
+@Slf4j
 public class CurrencyController {
 
     private final CurrencyService service;
 
-    @GetMapping("/welcome")
-    public String getWelcome() {
-        return "welcome...";
-    }
-
     @GetMapping("/all-today")
     public ResponseEntity<List<CurrencyDto>> getAllCurrencies() {
-        List<CurrencyDto> all = service.findAll();
-        return ResponseEntity.ok(all);
+        log.info("Received request to get currencies list");
+        return ResponseEntity.ok(service.findAll());
     }
 
-    @GetMapping("/all-by-date/{date}")
-    public ResponseEntity<List<CurrencyDto>> getAllCurrenciesByDate(@PathVariable("date") LocalDate date) {
-        List<CurrencyDto> allByDate = service.findAllByDate(date);
-        return ResponseEntity.ok(allByDate);
+    @GetMapping("/all-by-date")
+    public ResponseEntity<List<CurrencyDto>> getAllCurrenciesByDate(@RequestParam("date") LocalDate date) {
+        log.info("Received request to get currencies list by date: {}", date);
+        return ResponseEntity.ok(service.findAllByDate(date));
     }
 
-    @GetMapping("/one-by-date-cc/{date}/{currencyCode}")
-    public ResponseEntity<CurrencyDto> getAllCurrencies(@PathVariable("date") LocalDate date,
-                                                        @PathVariable("currencyCode") String currencyCode) {
-        CurrencyDto oneByDateAndCurrencyCode = service.findOneByDateAndCurrencyCode(date, currencyCode);
-        return ResponseEntity.ok(oneByDateAndCurrencyCode);
+    @GetMapping("/one-by-date-currencyCode")
+    public ResponseEntity<CurrencyDto> getOneByDateAndCurrencyCode(@RequestParam("date") LocalDate date,
+                                                        @RequestParam("currencyCode") String currencyCode) {
+        log.info("Received request to get currency by date: {} and currencyCode: {}", date, currencyCode);
+        return ResponseEntity.ok(service.findOneByDateAndCurrencyCode(date, currencyCode));
     }
 }
