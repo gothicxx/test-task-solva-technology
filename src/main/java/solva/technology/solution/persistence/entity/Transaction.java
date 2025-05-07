@@ -13,7 +13,6 @@ import solva.technology.solution.persistence.entity.base_entity.BaseEntity;
 
 @Entity
 @Table(name = "transactions")
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Setter
 @Getter

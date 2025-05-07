@@ -12,8 +12,7 @@ import lombok.ToString;
 import solva.technology.solution.persistence.entity.base_entity.BaseEntity;
 
 @Entity
-@Table(name = "limits")
-@AllArgsConstructor
+@Table(name = "transaction_limits")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Setter
 @Getter
