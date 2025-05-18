@@ -8,9 +8,9 @@ create table currencies(
     constraint currencies_pk primary key (id)
 );
 
-create table transactions_limits(
+create table spending_limits(
     id bigint not null auto_increment,
-    constraint transactions_limits_pk primary key (id)
+    constraint spending_limits_pk primary key (id)
 );
 
 create table transactions(

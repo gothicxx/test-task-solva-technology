@@ -1,22 +1,36 @@
 package solva.technology.solution.persistence.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import solva.technology.solution.persistence.entity.base_entity.BaseEntity;
+import solva.technology.solution.persistence.entity.enums.ExpenseCategory;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "transaction_limits")
+@Table(name = "spending_limits")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Setter
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @ToString
-public class Limit extends BaseEntity {
+public class SpendingLimit extends BaseEntity {
+
+    @Column(name = "expense_category")
+    @Enumerated(value = EnumType.STRING)
+    private ExpenseCategory expenseCategory;
+
+    private BigDecimal amount;
+
+    private LocalDate date;
 }
