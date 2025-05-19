@@ -4,17 +4,18 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
-import solva.technology.solution.persistence.dto.transaction.TransactionDto;
-import solva.technology.solution.persistence.entity.Transaction;
+import solva.technology.solution.persistence.dto.limit.SpendingLimitCreateDto;
+import solva.technology.solution.persistence.dto.limit.SpendingLimitDto;
+import solva.technology.solution.persistence.entity.SpendingLimit;
 
 @Mapper(
         componentModel = MappingConstants.ComponentModel.SPRING,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
         unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
-public abstract class TransactionMapper {
+public abstract class SpendingLimitMapper {
 
-    public abstract Transaction mapToEntity(TransactionDto dto);
+    public abstract SpendingLimit mapToEntity(SpendingLimitCreateDto dto);
 
-    public abstract TransactionDto mapToDto(Transaction transaction);
+    public abstract SpendingLimitDto mapToDto(SpendingLimit spendingLimit);
 }

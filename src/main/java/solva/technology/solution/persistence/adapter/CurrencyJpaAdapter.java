@@ -84,6 +84,7 @@ public class CurrencyJpaAdapter implements CurrencyPersistence {
     }
 
     public void saveAll(List<CurrencyCreateDto> dto) {
+        log.info("map to entities and save: {}", dto);
         List<Currency> currencies = dto.stream().map(currencyMapper::mapToEntity).toList();
         currencyJpaRepository.saveAll(currencies);
     }

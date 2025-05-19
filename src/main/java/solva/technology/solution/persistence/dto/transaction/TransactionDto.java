@@ -21,4 +21,6 @@ public class TransactionDto {
     private ExpenseCategory expenseCategory;
 
     private OffsetDateTime dateTime;
+
+    private Boolean limitExceeded;
 }
