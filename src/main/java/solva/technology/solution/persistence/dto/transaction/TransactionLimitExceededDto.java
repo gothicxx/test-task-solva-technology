@@ -1,5 +1,6 @@
 package solva.technology.solution.persistence.dto.transaction;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,25 +10,28 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
-public record TransactionLimitExceededDto(
+@AllArgsConstructor
+@Setter
+@Getter
+public class TransactionLimitExceededDto {
 
-        Long transactionId,
+    private Long transactionId;
 
-        Long accountFrom,
+    private Long accountFro;
 
-        Long accountTo,
+    private Long accountTo;
 
-        String currencyShortName,
+    private String currencyShortName;
 
-        Double sum,
+    private Double sum;
 
-        OffsetDateTime dateTime,
+    private OffsetDateTime dateTime;
 
-        ExpenseCategory expenseCategory,
+    private ExpenseCategory expenseCategory;
 
-        BigDecimal limitAmount,
+    private BigDecimal limitAmount;
 
-        LocalDate limitDate,
+    private LocalDate limitDate;
 
-        String limitCurrency
-) {}
+    private String limitCurrency;
+}

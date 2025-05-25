@@ -38,15 +38,15 @@ public class CurrencyJpaAdapter implements CurrencyPersistence {
         List<CurrencyCreateDto> currencyCreateDtoList = dataFetcher.fetchDataFromJsonByDate(date);
         List<Currency> currencies = currencyCreateDtoList.stream().map(currencyMapper::mapToEntity).toList();
         currencyJpaRepository.saveAll(currencies);
-        //        currencyJpaRepository.saveAll(currencyCreateDtoList.stream()
-//                .map(currencyMapper::mapToEntity)
-//                .toList());
-        return currencies.stream()
-                .map(currencyMapper::mapToDto)
-                .toList();
-//        return currencyJpaRepository.findAllByDate(date).stream()
+                currencyJpaRepository.saveAll(currencyCreateDtoList.stream()
+                .map(currencyMapper::mapToEntity)
+                .toList());
+//        return currencies.stream()
 //                .map(currencyMapper::mapToDto)
 //                .toList();
+        return currencyJpaRepository.findAllByDate(date).stream()
+                .map(currencyMapper::mapToDto)
+                .toList();
     }
 
     // todo firstly save and than return, in scheduler saved yet
@@ -89,3 +89,4 @@ public class CurrencyJpaAdapter implements CurrencyPersistence {
         currencyJpaRepository.saveAll(currencies);
     }
 }
+

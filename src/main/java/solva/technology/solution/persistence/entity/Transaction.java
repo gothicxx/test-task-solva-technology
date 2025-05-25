@@ -19,7 +19,7 @@ import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "transactions")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Setter
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
@@ -35,12 +35,14 @@ public class Transaction extends BaseEntity {
     @Column(name = "currency_shortname")
     private String currencyShortName;
 
+    @Column(name = "tx_sum")
     private Double sum;
 
     @Column(name = "expense_category")
     @Enumerated(value = EnumType.STRING)
     private ExpenseCategory expenseCategory;
 
+    @Column(name = "date_time")
     private OffsetDateTime dateTime;
 
     @Column(name = "limit_exceeded")
