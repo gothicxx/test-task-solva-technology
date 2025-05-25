@@ -19,7 +19,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "spending_limits")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Setter
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
@@ -32,5 +32,6 @@ public class SpendingLimit extends BaseEntity {
 
     private BigDecimal amount;
 
+    @Column(name = "limit_date")
     private LocalDate date;
 }
